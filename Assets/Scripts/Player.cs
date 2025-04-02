@@ -1,22 +1,35 @@
+
 using UnityEngine;
 
-public class Example : MonoBehaviour
+public class Example1 : MonoBehaviour
 {
-    Rigidbody m_Rigidbody;
-    public float m_Thrust = 20f;
+    Animator m_Animator;
 
     void Start()
     {
-        //Fetch the Rigidbody from the GameObject with this script attached
-        m_Rigidbody = GetComponent<Rigidbody>();
+        //Get the Animator attached to the GameObject you are intending to animate.
+        m_Animator = gameObject.GetComponent<Animator>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        if (Input.GetButton("Jump"))
+        //Press the up arrow button to reset the trigger and set another one
+        if (Input.GetKey(KeyCode.UpArrow))
         {
-            //Apply a force to this Rigidbody in direction of this GameObjects up axis
-            m_Rigidbody.AddForce(transform.up * m_Thrust);
+            //Reset the "Crouch" trigger
+            m_Animator.ResetTrigger("Crouch");
+
+            //Send the message to the Animator to activate the trigger parameter named "Jump"
+            m_Animator.SetTrigger("Jump");
+        }
+
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            //Reset the "Jump" trigger
+            m_Animator.ResetTrigger("Jump");
+
+            //Send the message to the Animator to activate the trigger parameter named "Crouch"
+            m_Animator.SetTrigger("Crouch");
         }
     }
 }
